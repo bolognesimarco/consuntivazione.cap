@@ -2,12 +2,10 @@ package consuntivazione.cap.vo;
 
 import java.util.Date;
 
-import consuntivazione.cap.model.Worker;
-
 public class TimeSheetVO {
 	private int id;
 	private Date endDate;
-	private Worker worker;
+	private WorkerVO worker;
 	private double days;
 	private double suspendedDays;
 	
@@ -24,10 +22,10 @@ public class TimeSheetVO {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	public Worker getWorker() {
+	public WorkerVO getWorker() {
 		return worker;
 	}
-	public void setWorker(Worker worker) {
+	public void setWorker(WorkerVO worker) {
 		this.worker = worker;
 	}
 	public double getDays() {
