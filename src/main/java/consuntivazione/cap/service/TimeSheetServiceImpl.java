@@ -59,6 +59,10 @@ public class TimeSheetServiceImpl implements TimeSheetService{
 		em.persist(oE);
 	}
 	
+	private void updateWorkerReport(int workerId) throws Exception{
+		
+	}
+	
 	public void newTimeSheet(TimeSheetVO vo) throws Exception{
 		/*
 		 * se ci sono timesheet piu recenti sullo stesso worker e con leftdays<totaldays, si prendono 
