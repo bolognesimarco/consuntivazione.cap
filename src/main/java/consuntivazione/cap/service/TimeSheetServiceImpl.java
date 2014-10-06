@@ -1,5 +1,6 @@
 package consuntivazione.cap.service;
 
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -75,11 +76,8 @@ public class TimeSheetServiceImpl implements TimeSheetService{
 			for (ReportEntry reportEntry : res) {
 				if(reportEntry.getInvoice()==null){
 					TimeSheet ts = reportEntry.getTimeSheet();
-					
 					order.setLeftDays(order.getLeftDays()+reportEntry.getDays());
-					
 					ts.setSuspendedDays(ts.getSuspendedDays()+reportEntry.getDays());
-					//resI.remove();
 					em.remove(reportEntry);
 				}
 			}
@@ -101,7 +99,7 @@ public class TimeSheetServiceImpl implements TimeSheetService{
 		
 		for (TimeSheet timeSheet : ts) {
 			for (Order order : tsO) {
-				if(order.getLeftDays()>=0){
+				if(order.getLeftDays()>0){
 					//if(order.getStartDate().before(timeSheet.getEndDate())){
 						double min = order.getLeftDays()>timeSheet.getSuspendedDays()?timeSheet.getSuspendedDays():order.getLeftDays();
 						order.setLeftDays(order.getLeftDays()-min);
@@ -173,4 +171,45 @@ public class TimeSheetServiceImpl implements TimeSheetService{
 		
 		updateWorkerReport(w.getId());
 	}
+	
+	
+	public void report(int workerId, int month, int year) throws Exception{
+		String reportEntries = "from ReportEntry re where re.timeSheet.worker.id=:wid and re.timeSheet.endDate between :s and :e";
+		TypedQuery tq = em.createQuery(reportEntries, ReportEntry.class);
+		
+		Calendar s = Calendar.getInstance();
+		s.set(Calendar.MILLISECOND, 0);
+		s.set(Calendar.SECOND, 0);
+		s.set(Calendar.MINUTE, 0);
+		s.set(Calendar.HOUR_OF_DAY, 0);
+		s.set(Calendar.DAY_OF_MONTH, 1);
+		s.set(Calendar.MONTH, month);
+		s.set(Calendar.YEAR, year);
+		
+		Calendar e = Calendar.getInstance();
+		e.set(Calendar.MILLISECOND, 0);
+		e.set(Calendar.SECOND, 0);
+		e.set(Calendar.MINUTE, 0);
+		e.set(Calendar.HOUR_OF_DAY, 0);
+		e.set(Calendar.DAY_OF_MONTH, 1);
+		e.set(Calendar.MONTH, month);
+		e.set(Calendar.YEAR, year);
+		e.add(Calendar.MONTH, 1);
+		e.add(Calendar.DAY_OF_YEAR, -1);
+		
+		tq.setParameter("wid", workerId);
+		tq.setParameter("s", s.getTime());
+		tq.setParameter("e", e.getTime());
+		
+		List<ReportEntry> entries = tq.getResultList();
+		
+		for (ReportEntry reportEntry : entries) {
+			System.out.println(
+					"ORDER: "+reportEntry.getOrder().getPlacerProtocol()+
+					" DAYS: "+reportEntry.getDays());
+		}
+		
+	}
+	
+	
 }

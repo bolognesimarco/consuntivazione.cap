@@ -8,4 +8,5 @@ public interface TimeSheetService {
 	public void newWorker(WorkerVO wVO) throws Exception;
 	public void newOrder(OrderVO oVO) throws Exception;
 	public void newTimeSheet(TimeSheetVO vo) throws Exception;
+	public void report(int workerId, int month, int year) throws Exception;
 }

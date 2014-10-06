@@ -21,7 +21,8 @@ public class Tester {
 		//t.newOrder();
 		//t.newWorker();
 		//t.newTimeSheet();
-		t.init();
+		//t.init();
+		t.report();
 		
 		System.exit(0);
 	}
@@ -63,7 +64,7 @@ public class Tester {
 		newTimeSheet(GNIGNERA, 21, Calendar.SEPTEMBER, 30);
 		*/
 		
-		newOrder(BOLOGNESI, 7, "14/14", 310, Calendar.JULY, 1);
+		//newOrder(BOLOGNESI, 7, "14/14", 310, Calendar.JULY, 1);
 	}
 	
 	
@@ -129,6 +130,38 @@ public class Tester {
 		vo.setName("Gnignera Luca");
 		tss.newWorker(vo);
 		
+	}
+	
+	public void report() throws Exception{
+		System.out.println("LUGLIO 2014");
+		System.out.println("BOLOGNESI");
+		tss.report(BOLOGNESI, Calendar.JULY, 2014);
+		System.out.println("BRUNI");
+		tss.report(BRUNI, Calendar.JULY, 2014);
+		System.out.println("BARIGELLI");
+		tss.report(BARIGELLI, Calendar.JULY, 2014);
+		System.out.println("GNIGNERA");
+		tss.report(GNIGNERA, Calendar.JULY, 2014);
+		
+		System.out.println("AGOSTO 2014");
+		System.out.println("BOLOGNESI");		
+		tss.report(BOLOGNESI, Calendar.AUGUST, 2014);
+		System.out.println("BRUNI");
+		tss.report(BRUNI, Calendar.AUGUST, 2014);
+		System.out.println("BARIGELLI");
+		tss.report(BARIGELLI, Calendar.AUGUST, 2014);
+		System.out.println("GNIGNERA");
+		tss.report(GNIGNERA, Calendar.AUGUST, 2014);
+		
+		System.out.println("SEPTEMBER 2014");
+		System.out.println("BOLOGNESI");
+		tss.report(BOLOGNESI, Calendar.SEPTEMBER, 2014);
+		System.out.println("BRUNI");
+		tss.report(BRUNI, Calendar.SEPTEMBER, 2014);
+		System.out.println("BARIGELLI");
+		tss.report(BARIGELLI, Calendar.SEPTEMBER, 2014);
+		System.out.println("GNIGNERA");
+		tss.report(GNIGNERA, Calendar.SEPTEMBER, 2014);
 	}
 
 }
