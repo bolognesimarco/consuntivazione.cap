@@ -34,9 +34,12 @@ public class Tester {
 	public void init() throws Exception{
 		
 		
+		newTimeSheet(BOLOGNESI, 22, Calendar.SEPTEMBER, 30);
+		newTimeSheet(BRUNI, 12, Calendar.SEPTEMBER, 30);
+		newTimeSheet(BARIGELLI, 20, Calendar.SEPTEMBER, 30);
+		newTimeSheet(GNIGNERA, 21, Calendar.SEPTEMBER, 30);	
 		
 		
-		/*
 		newOrder(BARIGELLI, 5.33, "13/14", 310, Calendar.JULY, 1);
 		
 		newOrder(BRUNI, 5.21, "15/14", 245, Calendar.JULY, 1);
@@ -44,10 +47,7 @@ public class Tester {
 		newOrder(BRUNI, 40, "45/14", 245, Calendar.JULY, 1);
 		newOrder(GNIGNERA, 40, "46/14", 245, Calendar.JULY, 1);
 		
-		newTimeSheet(BRUNI, 22.5, Calendar.JULY, 31);
-		newTimeSheet(BOLOGNESI, 12.5, Calendar.JULY, 31);
-		newTimeSheet(BARIGELLI, 19.63, Calendar.JULY, 31);
-		newTimeSheet(GNIGNERA, 20.5, Calendar.JULY, 31);
+
 		newTimeSheet(BOLOGNESI, 11, Calendar.AUGUST, 31);
 		newTimeSheet(BRUNI, 17.63, Calendar.AUGUST, 31);
 		newTimeSheet(BARIGELLI, 6, Calendar.AUGUST, 31);
@@ -58,13 +58,12 @@ public class Tester {
 		newOrder(BARIGELLI, 90, "62/14", 310, Calendar.SEPTEMBER, 1);
 		newOrder(BOLOGNESI, 90, "63/14", 310, Calendar.SEPTEMBER, 1);
 		
-		newTimeSheet(BOLOGNESI, 22, Calendar.SEPTEMBER, 30);
-		newTimeSheet(BRUNI, 12, Calendar.SEPTEMBER, 30);
-		newTimeSheet(BARIGELLI, 20, Calendar.SEPTEMBER, 30);
-		newTimeSheet(GNIGNERA, 21, Calendar.SEPTEMBER, 30);
-		*/
-		
-		//newOrder(BOLOGNESI, 7, "14/14", 310, Calendar.JULY, 1);
+		newTimeSheet(BRUNI, 22.5, Calendar.JULY, 31);
+		newTimeSheet(BOLOGNESI, 12.5, Calendar.JULY, 31);
+		newTimeSheet(BARIGELLI, 19.63, Calendar.JULY, 31);
+		newTimeSheet(GNIGNERA, 20.5, Calendar.JULY, 31);
+				
+		newOrder(BOLOGNESI, 7, "14/14", 310, Calendar.JULY, 1);
 	}
 	
 	
@@ -143,7 +142,7 @@ public class Tester {
 		System.out.println("GNIGNERA");
 		tss.report(GNIGNERA, Calendar.JULY, 2014);
 		
-		System.out.println("AGOSTO 2014");
+		System.out.println("\r\nAGOSTO 2014");
 		System.out.println("BOLOGNESI");		
 		tss.report(BOLOGNESI, Calendar.AUGUST, 2014);
 		System.out.println("BRUNI");
@@ -153,7 +152,7 @@ public class Tester {
 		System.out.println("GNIGNERA");
 		tss.report(GNIGNERA, Calendar.AUGUST, 2014);
 		
-		System.out.println("SEPTEMBER 2014");
+		System.out.println("\r\nSEPTEMBER 2014");
 		System.out.println("BOLOGNESI");
 		tss.report(BOLOGNESI, Calendar.SEPTEMBER, 2014);
 		System.out.println("BRUNI");

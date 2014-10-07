@@ -69,10 +69,6 @@ public class TimeSheetServiceImpl implements TimeSheetService{
 		List<Order> tsO = qO.getResultList();
 		for (Order order : tsO) {
 			List<ReportEntry> res = order.getReportEntries();
-			//Iterator<ReportEntry> resI = res.iterator();
-			//ReportEntry reportEntry = null;
-			//while(resI.hasNext()){
-				//reportEntry = resI.next();
 			for (ReportEntry reportEntry : res) {
 				if(reportEntry.getInvoice()==null){
 					TimeSheet ts = reportEntry.getTimeSheet();
@@ -160,9 +156,7 @@ public class TimeSheetServiceImpl implements TimeSheetService{
 			for (ReportEntry reportEntry : res) {
 				if(reportEntry.getInvoice()==null){
 					Order o = reportEntry.getOrder();
-					timeSheet.getReportEntries().remove(reportEntry);
 					timeSheet.setSuspendedDays(timeSheet.getSuspendedDays()+reportEntry.getDays());
-					o.getReportEntries().remove(reportEntry);
 					o.setLeftDays(o.getLeftDays()+reportEntry.getDays());
 					em.remove(reportEntry);
 				}
