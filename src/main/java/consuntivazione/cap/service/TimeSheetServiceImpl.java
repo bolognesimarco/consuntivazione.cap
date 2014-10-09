@@ -199,10 +199,21 @@ public class TimeSheetServiceImpl implements TimeSheetService{
 		
 		for (ReportEntry reportEntry : entries) {
 			System.out.println(
-					"ORDER: "+reportEntry.getOrder().getPlacerProtocol()+
-					" DAYS: "+reportEntry.getDays());
+					" Ordine: "+reportEntry.getOrder().getPlacerProtocol()+
+					" Worker: "+reportEntry.getOrder().getWorker().getName()+
+					" Giorni Totali: "+reportEntry.getOrder().getTotalDays()+
+					" Worker: "+reportEntry.getTimeSheet().getWorker().getName()
+					);
 		}
 		
+	}
+	
+	
+	public List<TimeSheetVO> suspended(int workerId, int month, int year) throws Exception{
+		return null;
+	}
+	public List<OrderVO> leftOvers(int workerId, int month, int year) throws Exception{
+		return null;
 	}
 	
 	

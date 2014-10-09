@@ -3,12 +3,12 @@ package consuntivazione.cap.vo;
 import java.util.Date;
 
 public class TimeSheetVO {
+	
 	private int id;
 	private Date endDate;
 	private WorkerVO worker;
 	private double days;
 	private double suspendedDays;
-	
 	
 	public int getId() {
 		return id;
@@ -40,6 +40,5 @@ public class TimeSheetVO {
 	public void setSuspendedDays(double suspendedDays) {
 		this.suspendedDays = suspendedDays;
 	}
-	
-	
+		
 }
