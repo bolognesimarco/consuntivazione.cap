@@ -1,5 +1,6 @@
 package consuntivazione.cap.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +17,7 @@ import consuntivazione.cap.model.ReportEntry;
 import consuntivazione.cap.model.TimeSheet;
 import consuntivazione.cap.model.Worker;
 import consuntivazione.cap.vo.OrderVO;
+import consuntivazione.cap.vo.ReportEntryVO;
 import consuntivazione.cap.vo.TimeSheetVO;
 import consuntivazione.cap.vo.WorkerVO;
 
@@ -167,7 +169,7 @@ public class TimeSheetServiceImpl implements TimeSheetService{
 	}
 	
 	
-	public void report(int workerId, int month, int year) throws Exception{
+	public List<ReportEntryVO> report(int workerId, int month, int year) throws Exception{
 		String reportEntries = "from ReportEntry re where re.timeSheet.worker.id=:wid and re.timeSheet.endDate between :s and :e";
 		TypedQuery tq = em.createQuery(reportEntries, ReportEntry.class);
 		
@@ -197,15 +199,16 @@ public class TimeSheetServiceImpl implements TimeSheetService{
 		
 		List<ReportEntry> entries = tq.getResultList();
 		
+		List<ReportEntryVO> entriesVO = new ArrayList<ReportEntryVO>();
+		
 		for (ReportEntry reportEntry : entries) {
-			System.out.println(
-					" Ordine: "+reportEntry.getOrder().getPlacerProtocol()+
-					" Worker: "+reportEntry.getOrder().getWorker().getName()+
-					" Giorni Totali: "+reportEntry.getOrder().getTotalDays()+
-					" Worker: "+reportEntry.getTimeSheet().getWorker().getName()
-					);
+			ReportEntryVO evo = new ReportEntryVO();
+			evo.setDays(reportEntry.getDays());
+			evo.setId(reportEntry.getId());
+			entriesVO.add(evo);
 		}
 		
+		return entriesVO;
 	}
 	
 	
