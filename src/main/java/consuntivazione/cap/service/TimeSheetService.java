@@ -14,4 +14,7 @@ public interface TimeSheetService {
 	public List<ReportEntryVO> report(int workerId, int month, int year) throws Exception;
 	public List<TimeSheetVO> suspended(int workerId, int month, int year) throws Exception;
 	public List<OrderVO> leftOvers(int workerId, int month, int year) throws Exception;
+	
+	
+	public void closeCtx() throws Exception;
 }

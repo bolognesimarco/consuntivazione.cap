@@ -2,7 +2,6 @@ package consuntivazione.cap.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,12 +9,17 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
+import consuntivazione.cap.model.Invoice;
 import consuntivazione.cap.model.Order;
 import consuntivazione.cap.model.ReportEntry;
 import consuntivazione.cap.model.TimeSheet;
 import consuntivazione.cap.model.Worker;
+import consuntivazione.cap.vo.InvoiceVO;
 import consuntivazione.cap.vo.OrderVO;
 import consuntivazione.cap.vo.ReportEntryVO;
 import consuntivazione.cap.vo.TimeSheetVO;
@@ -28,6 +32,7 @@ public class TimeSheetServiceImpl implements TimeSheetService{
 	@PersistenceContext
 	private EntityManager em;
 	
+		
 	public void newWorker(WorkerVO wVO) throws Exception{
 		Worker wE = new Worker();
 		wE.setName(wVO.getName());
@@ -170,7 +175,8 @@ public class TimeSheetServiceImpl implements TimeSheetService{
 	
 	
 	public List<ReportEntryVO> report(int workerId, int month, int year) throws Exception{
-		String reportEntries = "from ReportEntry re where re.timeSheet.worker.id=:wid and re.timeSheet.endDate between :s and :e";
+		String reportEntries = "from ReportEntry re where "+(workerId>0?"re.timeSheet.worker.id=:wid and ":"")+"re.timeSheet.endDate between :s and :e";
+		
 		TypedQuery tq = em.createQuery(reportEntries, ReportEntry.class);
 		
 		Calendar s = Calendar.getInstance();
@@ -178,22 +184,44 @@ public class TimeSheetServiceImpl implements TimeSheetService{
 		s.set(Calendar.SECOND, 0);
 		s.set(Calendar.MINUTE, 0);
 		s.set(Calendar.HOUR_OF_DAY, 0);
-		s.set(Calendar.DAY_OF_MONTH, 1);
-		s.set(Calendar.MONTH, month);
-		s.set(Calendar.YEAR, year);
-		
 		Calendar e = Calendar.getInstance();
 		e.set(Calendar.MILLISECOND, 0);
 		e.set(Calendar.SECOND, 0);
 		e.set(Calendar.MINUTE, 0);
 		e.set(Calendar.HOUR_OF_DAY, 0);
-		e.set(Calendar.DAY_OF_MONTH, 1);
-		e.set(Calendar.MONTH, month);
-		e.set(Calendar.YEAR, year);
-		e.add(Calendar.MONTH, 1);
-		e.add(Calendar.DAY_OF_YEAR, -1);
 		
-		tq.setParameter("wid", workerId);
+		if(year==0){
+			year = s.get(Calendar.YEAR);
+		}
+		
+		if(month==0){
+			//tutto l'anno
+			s.set(Calendar.DAY_OF_MONTH, 1);
+			s.set(Calendar.MONTH, Calendar.JANUARY);
+			s.set(Calendar.YEAR, year);
+			
+			e.set(Calendar.DAY_OF_MONTH, 31);
+			e.set(Calendar.MONTH, Calendar.DECEMBER);
+			e.set(Calendar.YEAR, year);
+			
+		}else{
+			//tutto il mese
+			s.set(Calendar.DAY_OF_MONTH, 1);
+			s.set(Calendar.MONTH, month);
+			s.set(Calendar.YEAR, year);
+			
+			e.set(Calendar.DAY_OF_MONTH, 1);
+			e.set(Calendar.MONTH, month);
+			e.set(Calendar.YEAR, year);
+			e.add(Calendar.MONTH, 1);
+			e.add(Calendar.DAY_OF_YEAR, -1);
+		}
+
+		
+		
+		if(workerId>0){
+			tq.setParameter("wid", workerId);
+		}
 		tq.setParameter("s", s.getTime());
 		tq.setParameter("e", e.getTime());
 		
@@ -205,6 +233,36 @@ public class TimeSheetServiceImpl implements TimeSheetService{
 			ReportEntryVO evo = new ReportEntryVO();
 			evo.setDays(reportEntry.getDays());
 			evo.setId(reportEntry.getId());
+			
+			Order o = reportEntry.getOrder();
+			OrderVO ovo = new OrderVO();
+			ovo.setId(o.getId());
+			ovo.setTotalDays(o.getTotalDays());
+			ovo.setLeftDays(o.getLeftDays());
+			ovo.setPlacerProtocol(o.getPlacerProtocol());
+			ovo.setReceiverProtocol(o.getReceiverProtocol());
+			ovo.setRate(o.getRate());
+			Worker w = o.getWorker();
+			WorkerVO wvo = new WorkerVO();
+			wvo.setId(w.getId());
+			wvo.setName(w.getName());
+			ovo.setWorker(wvo);
+			
+			TimeSheetVO tsvo = new TimeSheetVO();
+			TimeSheet ts = reportEntry.getTimeSheet();
+			tsvo.setEndDate(ts.getEndDate());
+			evo.setTimeSheet(tsvo);
+			
+			evo.setOrder(ovo);
+			
+			Invoice i = reportEntry.getInvoice();
+			if(i!=null){
+				InvoiceVO ivo = new InvoiceVO();
+				ivo.setId(i.getId());
+				ivo.setDate(i.getDate());
+				
+				evo.setInvoice(ivo);
+			}
 			entriesVO.add(evo);
 		}
 		
@@ -217,6 +275,16 @@ public class TimeSheetServiceImpl implements TimeSheetService{
 	}
 	public List<OrderVO> leftOvers(int workerId, int month, int year) throws Exception{
 		return null;
+	}
+	
+	
+	@Autowired
+	ApplicationContext ctx;
+	public void closeCtx() throws Exception{
+		((ConfigurableApplicationContext)ctx).stop();
+		((ConfigurableApplicationContext)ctx).close();
+		((ConfigurableApplicationContext)ctx).registerShutdownHook();
+		
 	}
 	
 	
