@@ -1,5 +1,7 @@
 package consuntivazione.cap.vo;
 
+import java.util.Date;
+
 
 public class ReportEntryVO {
 	
@@ -53,6 +55,8 @@ public class ReportEntryVO {
 		this.days = days;
 	}
 
-	
+public static void main(String[] aa){
+	System.out.println(new Date(114,8,30).getTime());
+}
 	
 }
