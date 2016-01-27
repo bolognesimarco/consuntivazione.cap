@@ -12,6 +12,9 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Invoice {
+	
+	//su develop
+	
 	@Id
 	@GeneratedValue
 	private int id;
