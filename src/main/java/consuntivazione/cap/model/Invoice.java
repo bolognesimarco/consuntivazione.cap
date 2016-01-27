@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Invoice {
+	//su hotfix1
+	
 	@Id
 	@GeneratedValue
 	private int id;
